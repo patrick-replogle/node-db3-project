@@ -1,6 +1,8 @@
 const db = require("../data/db-config");
 
-function find() {}
+function find() {
+  return db("schemes").select();
+}
 
 function findById(id) {}
 
