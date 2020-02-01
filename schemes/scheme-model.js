@@ -10,16 +10,17 @@ function findById(id) {
     .first();
 }
 
-function findSteps(scheme_id) {
-  return db("steps")
-    .join("schemes", "schemes.id", "steps.scheme_id")
-    .where({ scheme_id })
+function findSteps(id) {
+  return db("schemes")
+    .join("steps", "steps.scheme_id", "schemes.id")
+    .where({ scheme_id: id })
     .select(
       "steps.id",
       "schemes.scheme_name",
       "steps.step_number",
       "steps.instructions"
-    );
+    )
+    .orderBy("steps.step_number");
 }
 
 async function add(data) {
@@ -42,6 +43,19 @@ function remove(id) {
     .where({ id })
     .del();
 }
+
+// first join attempt
+// function findSteps(scheme_id) {
+//   return db("steps")
+//     .join("schemes", "schemes.id", "steps.scheme_id")
+//     .where({ scheme_id })
+//     .select(
+//       "steps.id",
+//       "schemes.scheme_name",
+//       "steps.step_number",
+//       "steps.instructions"
+//     );
+// }
 
 module.exports = {
   find,
