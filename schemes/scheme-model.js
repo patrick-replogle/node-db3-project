@@ -13,7 +13,7 @@ function findById(id) {
 function findSteps(scheme_id) {
   return db("steps")
     .join("schemes", "schemes.id", "steps.scheme_id")
-    .where(scheme_id)
+    .where({ scheme_id })
     .select(
       "steps.id",
       "schemes.scheme_name",
