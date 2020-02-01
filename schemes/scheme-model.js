@@ -10,7 +10,17 @@ function findById(id) {
     .first();
 }
 
-async function findSteps(id) {}
+function findSteps(scheme_id) {
+  return db("steps")
+    .join("schemes", "schemes.id", "steps.scheme_id")
+    .where(scheme_id)
+    .select(
+      "steps.id",
+      "schemes.scheme_name",
+      "steps.step_number",
+      "steps.instructions"
+    );
+}
 
 async function add(data) {
   const [id] = await db("schemes").insert(data);
