@@ -4,15 +4,34 @@ function find() {
   return db("schemes").select();
 }
 
-function findById(id) {}
+function findById(id) {
+  return db("schemes")
+    .where({ id })
+    .first();
+}
 
-function findSteps(id) {}
+async function findSteps(id) {}
 
-function add() {}
+async function add(data) {
+  const [id] = await db("schemes").insert(data);
+  return db("schemes")
+    .where({ id })
+    .first();
+}
 
-function update(id, change) {}
+async function update(changes, id) {
+  await db("schemes")
+    .where({ id })
+    .update(changes);
 
-function remove(id) {}
+  return findById(id);
+}
+
+function remove(id) {
+  return db("schemes")
+    .where({ id })
+    .del();
+}
 
 module.exports = {
   find,
