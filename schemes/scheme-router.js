@@ -1,4 +1,5 @@
 const express = require("express");
+const db = require("../data/db-config");
 
 const Schemes = require("./scheme-model.js");
 
@@ -80,29 +81,58 @@ router.get("/steps/:id", (req, res) => {
     });
 });
 
-router.post("/:id/steps", (req, res) => {
-  const stepData = {
-    instructions: req.body.instructions,
-    scheme_id: req.params.id
-  };
-  const { id } = req.params;
-
-  Schemes.findById(id)
-    .then(scheme => {
-      if (scheme) {
-        Schemes.addStep(stepData, id).then(step => {
-          res.status(201).json(step);
-        });
-      } else {
-        res
-          .status(404)
-          .json({ message: "Could not find scheme with given id." });
-      }
-    })
-    .catch(err => {
-      res.status(500).json({ message: "Failed to create new step" });
+router.post("/:id/steps", async (req, res) => {
+  try {
+    const stepNumber = await Schemes.findSteps(req.params.id).then(steps => {
+      return steps.length + 1;
     });
+
+    const stepData = {
+      instructions: req.body.instructions,
+      scheme_id: req.params.id,
+      step_number: stepNumber
+    };
+    const { id } = req.params;
+
+    const step = await Schemes.findById(id);
+    if (step) {
+      res.status(201).json(await Schemes.addStep(stepData));
+    } else {
+      res.status(404).json({ message: "Scheme not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "Failed to create new step" });
+  }
 });
+
+// router.post("/:id/steps", (req, res) => {
+//   const stepNumber = Schemes.findSteps(req.params.id).then(steps => {
+//     return steps.length + 1;
+//   });
+
+//   const stepData = {
+//     instructions: req.body.instructions,
+//     scheme_id: req.params.id,
+//     step_number: stepNumber
+//   };
+//   const { id } = req.params;
+
+//   Schemes.findById(id)
+//     .then(scheme => {
+//       if (scheme) {
+//         Schemes.addStep(stepData).then(step => {
+//           res.status(201).json(step);
+//         });
+//       } else {
+//         res
+//           .status(404)
+//           .json({ message: "Could not find scheme with given id." });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: "Failed to create new step" });
+//     });
+// });
 
 router.put("/:id", (req, res) => {
   const { id } = req.params;
