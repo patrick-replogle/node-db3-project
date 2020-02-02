@@ -23,6 +23,20 @@ function findSteps(id) {
     .orderBy("steps.step_number");
 }
 
+function findStepById(id) {
+  return db("steps")
+    .where({ id })
+    .first();
+}
+
+async function addStep(stepData, id) {
+  const [id] = await db("steps")
+    .insert(stepData)
+    .where("steps.scheme_id", id);
+
+  return findStepById(id);
+}
+
 async function add(data) {
   const [id] = await db("schemes").insert(data);
   return db("schemes")
@@ -63,5 +77,7 @@ module.exports = {
   findSteps,
   add,
   update,
-  remove
+  remove,
+  findStepById,
+  addStep
 };
