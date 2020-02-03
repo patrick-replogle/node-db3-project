@@ -23,5 +23,18 @@ ORDER BY p.ProductName;
 
 SELECT [Order].Id AS OrderId, Customer.CompanyName, Employee.LastName
 FROM [Order]
-    JOIN Customer , Employee
+    JOIN Customer  , Employee
 WHERE [Order].CustomerId=Customer.Id AND [Order].EmployeeId=Employee.Id
+
+--STRETCH Questions - In SQL Try Editor at W3Schools.com:
+--Displays CategoryName and a new column called Count that shows how many products are in each category. Shows 8 records.
+
+SELECT Categories.CategoryName, COUNT(Products.CategoryId) as Count
+FROM Categories
+    JOIN Products 
+WHERE Categories.CategoryID = Products.CategoryId
+GROUP BY Products.CategoryId;
+
+--Display OrderID and a column called ItemCount that shows the total number of products placed on the order. Shows 196 records.
+
+

@@ -105,35 +105,6 @@ router.post("/:id/steps", async (req, res) => {
   }
 });
 
-// router.post("/:id/steps", (req, res) => {
-//   const stepNumber = Schemes.findSteps(req.params.id).then(steps => {
-//     return steps.length + 1;
-//   });
-
-//   const stepData = {
-//     instructions: req.body.instructions,
-//     scheme_id: req.params.id,
-//     step_number: stepNumber
-//   };
-//   const { id } = req.params;
-
-//   Schemes.findById(id)
-//     .then(scheme => {
-//       if (scheme) {
-//         Schemes.addStep(stepData).then(step => {
-//           res.status(201).json(step);
-//         });
-//       } else {
-//         res
-//           .status(404)
-//           .json({ message: "Could not find scheme with given id." });
-//       }
-//     })
-//     .catch(err => {
-//       res.status(500).json({ message: "Failed to create new step" });
-//     });
-// });
-
 router.put("/:id", (req, res) => {
   const { id } = req.params;
   const changes = req.body;
@@ -172,5 +143,35 @@ router.delete("/:id", (req, res) => {
       res.status(500).json({ message: "Failed to delete scheme" });
     });
 });
+
+//changed to async above
+// router.post("/:id/steps", (req, res) => {
+//   const stepNumber = Schemes.findSteps(req.params.id).then(steps => {
+//     return steps.length + 1;
+//   });
+
+//   const stepData = {
+//     instructions: req.body.instructions,
+//     scheme_id: req.params.id,
+//     step_number: stepNumber
+//   };
+//   const { id } = req.params;
+
+//   Schemes.findById(id)
+//     .then(scheme => {
+//       if (scheme) {
+//         Schemes.addStep(stepData).then(step => {
+//           res.status(201).json(step);
+//         });
+//       } else {
+//         res
+//           .status(404)
+//           .json({ message: "Could not find scheme with given id." });
+//       }
+//     })
+//     .catch(err => {
+//       res.status(500).json({ message: "Failed to create new step" });
+//     });
+// });
 
 module.exports = router;
