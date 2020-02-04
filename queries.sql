@@ -8,7 +8,7 @@ FROM Product AS p
 
 -- Display the order Id and shipper CompanyName for all orders placed before August 9 2012. Shows 429 records.
 SELECT o.Id, s.CompanyName
-FROM "Order" AS o
+FROM [Order] AS o
     JOIN Shipper AS s On o.ShipVia = s.Id
 WHERE o.OrderDate<'2012-08-09';
 
@@ -23,7 +23,7 @@ ORDER BY p.ProductName;
 
 SELECT [Order].Id AS OrderId, Customer.CompanyName, Employee.LastName
 FROM [Order]
-    JOIN Customer   , Employee
+    JOIN Customer    , Employee
 WHERE [Order].CustomerId=Customer.Id AND [Order].EmployeeId=Employee.Id
 
 --STRETCH Questions - In SQL Try Editor at W3Schools.com:
